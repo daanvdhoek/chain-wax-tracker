@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚴‍♂️ Chain Wax Tracker
 
-## Getting Started
+A simple web app to track road bike chain usage and waxing intervals, with automatic ride import via Strava.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- Track multiple chains (e.g. Chain A / Chain B)
+- Automatically import ride distance from Strava
+- Monitor:
+  - Total km per chain
+  - Km since last wax
+- Visual alerts when:
+  - A chain should be switched (≥270 km)
+  - A removed chain should be rewaxed
+- Manual controls:
+  - Switch active chain
+  - Mark chain as rewaxed
+  - Edit starting km
+
+---
+
+## ⚙️ How it works
+
+1. Connect your Strava account
+2. Complete a ride (e.g. via Garmin → Strava)
+3. Strava sends a webhook to the app
+4. The app:
+   - fetches the activity
+   - adds distance to the installed chain
+5. When a chain reaches the threshold:
+   - you get a clear warning to switch chains
+
+---
+
+## 🧠 Core logic
+
+- Only the **installed chain** accumulates distance
+- Each chain tracks:
+  - `totalKm` → lifetime usage
+  - `kmSinceWax` → maintenance threshold
+- Webhooks enable **automatic tracking (no manual input needed)**
+
+---
+
+## 🚀 Getting Started (Local)
+
+### 1. Install dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+npm install
