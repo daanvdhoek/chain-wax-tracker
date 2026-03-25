@@ -23,6 +23,10 @@ export async function exchangeCodeForToken(code: string) {
     grant_type: "authorization_code",
   });
 
+console.log("STRAVA_CLIENT_ID present:", !!process.env.STRAVA_CLIENT_ID);
+console.log("STRAVA_CLIENT_SECRET present:", !!process.env.STRAVA_CLIENT_SECRET);
+console.log("Redirect app URL:", process.env.NEXT_PUBLIC_APP_URL);
+
   const res = await fetch(STRAVA_TOKEN_URL, {
     method: "POST",
     headers: {
