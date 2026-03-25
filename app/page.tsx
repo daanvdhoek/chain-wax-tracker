@@ -155,8 +155,14 @@ async function updateStartingKm(formData: FormData) {
 export default async function HomePage() {
   const targetKm = Number(process.env.TARGET_KM ?? 270);
 
-  const chains = await prisma.chain.findMany({
-    orderBy: { createdAt: "asc" },
+  const chainsRaw = await prisma.chain.findMany();
+
+  const chains = chainsRaw.sort((a, b) => {
+    if (a.name === "Chain A") return -1;
+    if (b.name === "Chain A") return 1;
+    if (a.name === "Chain B") return -1;
+    if (b.name === "Chain B") return 1;
+    return 0;
   });
 
   const events = await prisma.event.findMany({
@@ -229,7 +235,14 @@ export default async function HomePage() {
                   !chain.isInstalled && chain.kmSinceWax >= targetKm;
 
                 return (
-                  <div key={chain.id} className="rounded-2xl border p-4">
+                  <div
+                      key={chain.id}
+                      className={`rounded-2xl p-4 border ${
+                        chain.isInstalled
+                          ? "border-blue-500 ring-2 ring-blue-400"
+                          : "border-gray-200"
+                      }`}
+                    >
                     <h3 className="text-lg font-semibold">
                       {chain.name} {chain.isInstalled ? "• installed" : ""}
                     </h3>
