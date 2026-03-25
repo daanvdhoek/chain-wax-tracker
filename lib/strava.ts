@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db";
 
-const STRAVA_TOKEN_URL = "https://www.strava.com/oauth/token";
 const STRAVA_API_BASE = "https://www.strava.com/api/v3";
+const STRAVA_TOKEN_URL = "https://www.strava.com/api/v3/oauth/token";
 
 export function getStravaAuthUrl() {
   const params = new URLSearchParams({
@@ -16,20 +16,25 @@ export function getStravaAuthUrl() {
 }
 
 export async function exchangeCodeForToken(code: string) {
+  const body = new URLSearchParams({
+    client_id: process.env.STRAVA_CLIENT_ID!,
+    client_secret: process.env.STRAVA_CLIENT_SECRET!,
+    code,
+    grant_type: "authorization_code",
+  });
+
   const res = await fetch(STRAVA_TOKEN_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      client_id: process.env.STRAVA_CLIENT_ID,
-      client_secret: process.env.STRAVA_CLIENT_SECRET,
-      code,
-      grant_type: "authorization_code",
-    }),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: body.toString(),
     cache: "no-store",
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to exchange Strava code: ${res.status}`);
+    const text = await res.text();
+    throw new Error(`Failed to exchange Strava code: ${res.status} ${text}`);
   }
 
   return res.json();
@@ -51,20 +56,25 @@ export async function getValidStravaAccessToken() {
     return settings.stravaAccessToken;
   }
 
+  const body = new URLSearchParams({
+    client_id: process.env.STRAVA_CLIENT_ID!,
+    client_secret: process.env.STRAVA_CLIENT_SECRET!,
+    grant_type: "refresh_token",
+    refresh_token: settings.stravaRefreshToken,
+  });
+
   const res = await fetch(STRAVA_TOKEN_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      client_id: process.env.STRAVA_CLIENT_ID,
-      client_secret: process.env.STRAVA_CLIENT_SECRET,
-      grant_type: "refresh_token",
-      refresh_token: settings.stravaRefreshToken,
-    }),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: body.toString(),
     cache: "no-store",
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to refresh Strava token: ${res.status}`);
+    const text = await res.text();
+    throw new Error(`Failed to refresh Strava token: ${res.status} ${text}`);
   }
 
   const tokenData = await res.json();
@@ -101,7 +111,8 @@ export async function getStravaActivity(activityId: string | number) {
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch activity ${activityId}: ${res.status}`);
+    const text = await res.text();
+    throw new Error(`Failed to fetch activity ${activityId}: ${res.status} ${text}`);
   }
 
   return res.json();
