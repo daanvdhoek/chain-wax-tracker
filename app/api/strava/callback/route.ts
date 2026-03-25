@@ -29,8 +29,5 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({
-  ok: true,
-  athleteId: String(tokenData.athlete.id),
-});
+  return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_APP_URL));
 }

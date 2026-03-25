@@ -159,6 +159,10 @@ export default async function HomePage() {
 
   const chainsRaw = await prisma.chain.findMany();
 
+  const userSettings = await prisma.userSettings.findUnique({
+  where: { id: "singleton" },
+  });
+
   const chains = chainsRaw.sort((a, b) => {
     if (a.name === "Chain A") return -1;
     if (b.name === "Chain A") return 1;
@@ -188,14 +192,20 @@ export default async function HomePage() {
         </p>
       </div>
 
-      <p className="mt-3">
-        <a
-          href="/api/strava/auth"
-          className="inline-block rounded-xl bg-orange-600 px-4 py-2 text-white"
-        >
-          Connect Strava
-        </a>
-      </p>
+      <div className="mt-3">
+        {userSettings?.stravaAthleteId ? (
+          <p className="inline-block rounded-xl bg-green-100 px-4 py-2 text-green-800">
+            Strava connected
+          </p>
+        ) : (
+          <a
+            href="/api/strava/auth"
+            className="inline-block rounded-xl bg-orange-600 px-4 py-2 text-white"
+          >
+            Connect Strava
+          </a>
+        )}
+      </div>
 
       
 
