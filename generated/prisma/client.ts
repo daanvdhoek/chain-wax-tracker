@@ -31,8 +31,8 @@ export * from "./enums"
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Chains
- * const chains = await prisma.chain.findMany()
+ * // Fetch zero or more UserSettings
+ * const userSettings = await prisma.userSettings.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -41,6 +41,11 @@ export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
+/**
+ * Model UserSettings
+ * 
+ */
+export type UserSettings = Prisma.UserSettingsModel
 /**
  * Model Chain
  * 
@@ -51,3 +56,8 @@ export type Chain = Prisma.ChainModel
  * 
  */
 export type Event = Prisma.EventModel
+/**
+ * Model Ride
+ * 
+ */
+export type Ride = Prisma.RideModel

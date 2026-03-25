@@ -7,6 +7,17 @@ datasource db {
   provider = "postgresql"
 }
 
+model UserSettings {
+  id                   String   @id
+  stravaAthleteId      String?  @unique
+  stravaAccessToken    String?
+  stravaRefreshToken   String?
+  stravaTokenExpiresAt DateTime?
+  targetKm             Float    @default(270)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
 model Chain {
   id          String   @id @default(cuid())
   name        String
@@ -23,4 +34,13 @@ model Event {
   type      String
   details   String?
   createdAt DateTime @default(now())
+}
+
+model Ride {
+  id               String   @id @default(cuid())
+  stravaActivityId String   @unique
+  distanceKm       Float
+  startDate        DateTime
+  chainName        String
+  createdAt        DateTime @default(now())
 }

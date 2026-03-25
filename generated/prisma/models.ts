@@ -8,6 +8,8 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/UserSettings'
 export type * from './models/Chain'
 export type * from './models/Event'
+export type * from './models/Ride'
 export type * from './commonInputTypes'

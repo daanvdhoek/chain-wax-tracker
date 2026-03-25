@@ -51,8 +51,10 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  UserSettings: 'UserSettings',
   Chain: 'Chain',
-  Event: 'Event'
+  Event: 'Event',
+  Ride: 'Ride'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -69,6 +71,20 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const UserSettingsScalarFieldEnum = {
+  id: 'id',
+  stravaAthleteId: 'stravaAthleteId',
+  stravaAccessToken: 'stravaAccessToken',
+  stravaRefreshToken: 'stravaRefreshToken',
+  stravaTokenExpiresAt: 'stravaTokenExpiresAt',
+  targetKm: 'targetKm',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserSettingsScalarFieldEnum = (typeof UserSettingsScalarFieldEnum)[keyof typeof UserSettingsScalarFieldEnum]
 
 
 export const ChainScalarFieldEnum = {
@@ -93,6 +109,18 @@ export const EventScalarFieldEnum = {
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
+export const RideScalarFieldEnum = {
+  id: 'id',
+  stravaActivityId: 'stravaActivityId',
+  distanceKm: 'distanceKm',
+  startDate: 'startDate',
+  chainName: 'chainName',
+  createdAt: 'createdAt'
+} as const
+
+export type RideScalarFieldEnum = (typeof RideScalarFieldEnum)[keyof typeof RideScalarFieldEnum]
 
 
 export const SortOrder = {

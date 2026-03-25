@@ -36,6 +36,8 @@ async function seedData() {
   revalidatePath("/");
 }
 
+
+
 async function addRide(formData: FormData) {
   "use server";
 
@@ -185,6 +187,17 @@ export default async function HomePage() {
           Switch threshold: <strong>{targetKm} km</strong>
         </p>
       </div>
+
+      <p className="mt-3">
+        <a
+          href="/api/strava/auth"
+          className="inline-block rounded-xl bg-orange-600 px-4 py-2 text-white"
+        >
+          Connect Strava
+        </a>
+      </p>
+
+      
 
       {chains.length === 0 ? (
         <div className="mt-6">
